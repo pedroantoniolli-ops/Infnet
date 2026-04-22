@@ -1,0 +1,25 @@
+data_path: data/raw/telco.csv
+target: Churn
+
+numerical_features:
+  - tenure
+  - MonthlyCharges
+  - TotalCharges
+
+categorical_features:
+  - gender
+  - SeniorCitizen
+  - Partner
+  - Dependents
+  - PhoneService
+  - MultipleLines
+  - InternetService
+  - OnlineSecurity
+  - OnlineBackup
+  - DeviceProtection
+  - TechSupport
+  - StreamingTV
+  - StreamingMovies
+  - Contract
+  - PaperlessBilling
+  - PaymentMethod

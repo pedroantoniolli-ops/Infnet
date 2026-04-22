@@ -1,0 +1,89 @@
+# Criar Ambiente
+python -m venv venv
+venv\Scripts\activate
+
+# Instalar dependencias
+pip install -r requirements.txt
+
+# Rodar Treino
+python main.py
+
+# Rodar MLflow
+mlflow ui
+
+# Rodar API
+uvicorn app.main:app --reload
+
+# Teste da API
+POST /predict
+{
+  "tenure": 12,
+  "MonthlyCharges": 70,
+  "TotalCharges": 840,
+  "gender": "Male",
+  "SeniorCitizen": 0,
+  ...
+}
+
+# Ingestao do dataset
+
+from src.data.ingestion import load_data
+
+df = load_data("data/raw/telco.csv")
+
+print(df.shape)
+df.head()
+
+# Diagnostico qualidade dos dados
+
+# Valores ausentes
+
+df.isnull().sum()
+
+# Resultado esperado TotalCharges com valores nulos
+
+# Tipos de dados
+
+df.dtypes
+
+# Correcao
+
+df["TotalCharges"] = pd.to_numeric(df["TotalCharges"], errors="coerce")
+
+# Remocao dos nulos
+
+df["Churn"].value_counts(normalize=True)
+
+# Verificacao Outliers - Verificacao Ruido e Inconsistencia
+
+df.describe()
+
+# Parte 3 - Experimentacao sistematica
+
+# Setup do ML Flow
+
+mlflow ui
+
+import mlflow
+import mlflow.sklearn
+
+mlflow.set_experiment("telco-churn-experiments")
+
+# Experimento
+
+from src.models.experiment import run_experiments
+
+run_experiments(
+    X,
+    y,
+    config["numerical_features"],
+    config["categorical_features"]
+)
+
+from src.models.dim_experiment import run_dimensionality_experiments
+
+run_dimensionality_experiments(X, y, preprocessor)
+
+
+
+
